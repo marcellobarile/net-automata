@@ -1,9 +1,12 @@
 #!/bin/bash
 
 # Automatically executes scripts when the network connection changes (only WiFi connections are supported for now)
+LOG_PATH=/usr/local/var/log/netautomata.log
 
 # redirect all IO to /dev/null (comment this out if you want to debug)
 # exec 1>/dev/null 2>/dev/null
+exec &>$LOG_PATH
+
 # get a little breather before we get data for things to settle down
 sleep 2
 
