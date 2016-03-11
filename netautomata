@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Automatically executes scripts when the network connection changes (only WiFi connections are supported for now)
+
+# redirect all IO to /dev/null (comment this out if you want to debug)
+# exec 1>/dev/null 2>/dev/null
+# get a little breather before we get data for things to settle down
+sleep 2
+
+# get various system information
+SSID=`/System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources/airport -I\
+ | grep ' SSID:' | cut -d ':' -f 2 | tr -d ' '`
+SSID_DIRECTORY=./scripts/$SSID
+
+if [ -d "$SSID_DIRECTORY" ]; then
+  echo "Info: $SSID directory found"
+  for SCRIPT in "$SSID_DIRECTORY"/*
+  do
+    if [ -f $SCRIPT -a -x $SCRIPT ]; then
+      echo "Info: executing $SCRIPT"
+      $SCRIPT
+    else
+      if [ -f $SCRIPT ]; then
+        echo "Warn: be sure that $SCRIPT is executable!"
+      fi
+    fi
+  done
+else
+  echo "Info: there are no scripts for $SSID"
+fi
