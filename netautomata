@@ -2,6 +2,7 @@
 
 # Automatically executes scripts when the network connection changes (only WiFi connections are supported for now)
 LOG_PATH=/usr/local/var/log/netautomata.log
+SCRIPTS_PATH=~/Documents/NetAutomata
 
 # redirect all IO to /dev/null (comment this out if you want to debug)
 # exec 1>/dev/null 2>/dev/null
@@ -13,7 +14,7 @@ sleep 2
 # get various system information
 SSID=`/System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources/airport -I\
  | grep ' SSID:' | cut -d ':' -f 2 | tr -d ' '`
-SSID_DIRECTORY=./scripts/$SSID
+SSID_DIRECTORY=$SCRIPTS_PATH/$SSID
 
 if [ -d "$SSID_DIRECTORY" ]; then
   echo "Info: $SSID directory found"
